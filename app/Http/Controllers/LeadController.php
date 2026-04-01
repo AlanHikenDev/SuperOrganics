@@ -10,7 +10,24 @@ class LeadController extends Controller
 {
     /**
      * Display a listing of leads.
+     * 
+     * class LeadController extends Controller
+     *  {
+     *       public function index()
+     *       {
+     *           $leads = DB::table('leads')->get();
+     *           foreach ($leads as $lead) {
+     *               $lead->user = DB::table('users')
+     *                   ->where('id', $lead->assigned_user_id)
+     *                   ->first();
+     *           }
+     *           return response()->json($leads);
+     *       }
+     *   }
+     * 
      */
+
+
     public function index(): Response
     {
         $leads = Lead::withCount('notes')
@@ -27,10 +44,12 @@ class LeadController extends Controller
      */
     public function show(Lead $lead): Response
     {
-        $lead->load(['notes' => function ($query) {
-            $query->with('user:id,name,email')
-                ->orderBy('created_at', 'desc');
-        }]);
+        $lead->load([
+            'notes' => function ($query) {
+                $query->with('user:id,name,email')
+                    ->orderBy('created_at', 'desc');
+            }
+        ]);
 
         $lead->loadCount('notes');
 

@@ -7,6 +7,7 @@ use App\Models\LeadNote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeadNoteController extends Controller
 {
@@ -36,8 +37,10 @@ class LeadNoteController extends Controller
             'note' => ['required', 'string', 'max:5000'],
         ]);
 
+        $userId = Auth::id();
+
         $note = $lead->notes()->create([
-            'user_id' => $request->user()?->id ?? 1,
+            'user_id' => $userId ?? 1,
             'note' => $validated['note'],
         ]);
 
