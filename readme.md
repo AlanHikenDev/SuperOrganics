@@ -238,3 +238,8 @@ Route::post('/leads/{lead}/notes', [LeadNoteController::class, 'store'])
 
 *Sentiment analysis
 - Detect intent/interest level from notes or conversations
+
+3) Integrations 
+
+integrate whit whatsapp api for provide a chat for the leads and tracking messages leads
+
